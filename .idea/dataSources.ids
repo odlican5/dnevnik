@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - dnevnik@localhost" uuid="94e95164-b33f-44f0-bd1a-32ea76553a3b">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="dnevnik"/>
+    <table name="djaci" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ime" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prezime" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="id_razred" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="id_odeljenje" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="id_roditelji" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_djaci_roditelji1" columns="id_roditelji" ref-table="roditelji" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_ocene_djaci" table="ocene" schema="" catalog="dnevnik" columns="id_djaci"/>
+      <exported-key name="fk_odeljenje_djaci" table="odeljenje_djak" schema="" catalog="dnevnik" columns="id_djak"/>
+      <index name="fk_djaci_roditelji1_idx" unique="false" columns="id_roditelji"/>
+    </table>
+    <table name="nastavnici" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ime" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="prezime" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="id_skole" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="username" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="150" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_nastavnici_skole" columns="id_skole" ref-table="skole" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_odeljenja_nastavnici1" table="odeljenja" schema="" catalog="dnevnik" columns="nastavnici_id"/>
+      <exported-key name="fk_predmeti_po_godinama_nastavnici1" table="predmeti_po_godinama" schema="" catalog="dnevnik" columns="nastavnici_id"/>
+      <index name="username_UNIQUE" unique="true" columns="username"/>
+      <index name="fk_nastavnici_skole_idx" unique="false" columns="id_skole"/>
+    </table>
+    <table name="ocene" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="id_djaci" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_predmeti_po_godinama" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ocene" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="id_odeljenja" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="roditelji_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_ocene_djaci" columns="id_djaci" ref-table="djaci" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_predmeti_pogodinama" columns="id_predmeti_po_godinama" ref-table="predmeti_po_godinama" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_ocene_odeljenje_djak1" columns="id_odeljenja" ref-table="odeljenje_djak" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_ocene_roditelji1" columns="roditelji_id" ref-table="roditelji" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_ocene_djaci_idx" unique="false" columns="id_djaci"/>
+      <index name="fk_ocene_odeljenje_djak1_idx" unique="false" columns="id_odeljenja"/>
+      <index name="fk_ocene_roditelji1_idx" unique="false" columns="roditelji_id"/>
+      <index name="fk_predmeti_pogodinama_idx" unique="false" columns="id_predmeti_po_godinama"/>
+    </table>
+    <table name="odeljenja" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="razred" sqlType="CHAR" precision="4" scale="0" nullable="true" jdbcType="1"/>
+      <column name="odeljenje" sqlType="CHAR" precision="4" scale="0" nullable="true" jdbcType="1"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="nastavnici_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="bmFzdGF2bmljaSBpZCBzdSByYXpyZWRuZSBzdGFyZXNpbmU="/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_odeljenja_nastavnici1" columns="nastavnici_id" ref-table="nastavnici" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_od_odeljenje" table="odeljenje_djak" schema="" catalog="dnevnik" columns="id_odeljenje"/>
+      <index name="fk_odeljenja_nastavnici1_idx" unique="false" columns="nastavnici_id"/>
+    </table>
+    <table name="odeljenje_djak" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="id_djak" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="id_odeljenje" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_odeljenje_djaci" columns="id_djak" ref-table="djaci" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_od_odeljenje" columns="id_odeljenje" ref-table="odeljenja" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_ocene_odeljenje_djak1" table="ocene" schema="" catalog="dnevnik" columns="id_odeljenja"/>
+      <index name="fk_od_odeljenje_idx" unique="false" columns="id_odeljenje"/>
+      <index name="fk_odeljenje_djaci_idx" unique="false" columns="id_djak"/>
+    </table>
+    <table name="predmeti" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="naziv" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="skole_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_predmeti_skole1" columns="skole_id" ref-table="skole" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_godine_predmeti" table="predmeti_po_godinama" schema="" catalog="dnevnik" columns="id_predmeta"/>
+      <index name="fk_predmeti_skole1_idx" unique="false" columns="skole_id"/>
+    </table>
+    <table name="predmeti_po_godinama" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="id_godina" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="id_predmeta" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="nastavnici_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_godine_predmeti" columns="id_predmeta" ref-table="predmeti" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_predmeti_po_godinama_nastavnici1" columns="nastavnici_id" ref-table="nastavnici" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_predmeti_pogodinama" table="ocene" schema="" catalog="dnevnik" columns="id_predmeti_po_godinama"/>
+      <index name="fk_godine_predmeti_idx" unique="false" columns="id_predmeta"/>
+      <index name="fk_predmeti_po_godinama_nastavnici1_idx" unique="false" columns="nastavnici_id"/>
+    </table>
+    <table name="roditelji" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="email" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prezime" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ime" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="mobilni" sqlType="VARCHAR" precision="15" scale="0" nullable="true" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_djaci_roditelji1" table="djaci" schema="" catalog="dnevnik" columns="id_roditelji"/>
+      <exported-key name="fk_ocene_roditelji1" table="ocene" schema="" catalog="dnevnik" columns="roditelji_id"/>
+    </table>
+    <table name="skole" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="naziv" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="id_vrsta_skole" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="mesto" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="adresa" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="150" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_skole_vrsta_skole" columns="id_vrsta_skole" ref-table="vrsta_skole" ref-schema="" ref-catalog="dnevnik" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_nastavnici_skole" table="nastavnici" schema="" catalog="dnevnik" columns="id_skole"/>
+      <exported-key name="fk_predmeti_skole1" table="predmeti" schema="" catalog="dnevnik" columns="skole_id"/>
+      <index name="fk_skole_vrsta_skole_idx" unique="false" columns="id_vrsta_skole"/>
+    </table>
+    <table name="vrsta_skole" schema="" catalog="dnevnik" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="naziv" sqlType="VARCHAR" precision="45" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="fk_skole_vrsta_skole" table="skole" schema="" catalog="dnevnik" columns="id_vrsta_skole"/>
+    </table>
+  </data-source>
+</component>
